@@ -66,7 +66,7 @@ extension MapViewController : ListOfStudentsLocationsProtocol {
     self.mapView.removeAnnotations(allAnnotations)
     //reload data
     mapView.addAnnotations(list.students)
-//    mapView.showAnnotations(list.students, animated: true)
+    mapView.showAnnotations(list.students, animated: true)
   }
 }
 extension MapViewController : MKMapViewDelegate {

@@ -17,6 +17,7 @@ class WhereViewController: UIViewController {
   
   @IBOutlet weak var locationTextfield: UITextField!
   @IBOutlet weak var linkTextfield: UITextField!
+  @IBOutlet weak var indicator: UIActivityIndicatorView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,7 +28,7 @@ class WhereViewController: UIViewController {
   }
   
   @IBAction func findOnTheMapAction(_ sender: Any) {
-    
+    indicator.startAnimating()
     guard let locationText = locationTextfield.text, !locationText.isEmpty else {
       showAlert("Add Location", message: "FIll the location", vc: self)
       return
@@ -47,6 +48,7 @@ class WhereViewController: UIViewController {
       let geocoder = CLGeocoder()
       do {
         geocoder.geocodeAddressString(locationText, completionHandler: { (result, error) in
+            self.indicator.stopAnimating()
           if let _ = error {
             showAlert("Location not found", message: "Could not geocode the string.", vc: self)
           }

@@ -28,7 +28,7 @@ class LinkViewController: UIViewController {
       let annotation = MKPointAnnotation()
       annotation.coordinate = placemark.location!.coordinate
       mapView.addAnnotation(annotation)
-        mapView.selectAnnotation(annotation, animated: true)
+      mapView.showAnnotations([annotation], animated: true)
     }
     
   }

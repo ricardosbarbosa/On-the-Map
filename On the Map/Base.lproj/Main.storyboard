@@ -195,7 +195,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ujP-nl-hy5">
-                                <rect key="frame" x="32" y="80" width="256" height="110"/>
+                                <rect key="frame" x="32" y="80" width="256" height="140"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l1H-fi-2kF">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="30"/>
@@ -219,6 +219,9 @@
                                             <action selector="findOnTheMapAction:" destination="k3V-UC-4T5" eventType="touchUpInside" id="wXD-nc-Zv3"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eTU-jb-d16">
+                                        <rect key="frame" x="0.0" y="120" width="256" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -239,6 +242,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Find" id="JKh-kE-zOb"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="indicator" destination="eTU-jb-d16" id="vbb-H6-KHt"/>
                         <outlet property="linkTextfield" destination="72u-6e-OMF" id="4mT-fX-MBY"/>
                         <outlet property="locationTextfield" destination="l1H-fi-2kF" id="ats-9x-NJz"/>
                         <segue destination="7EE-Dh-2EQ" kind="show" identifier="LinkViewController" id="dJF-FX-h1Q"/>
