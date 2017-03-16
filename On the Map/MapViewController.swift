@@ -62,9 +62,11 @@ class MapViewController: UIViewController {
 }
 extension MapViewController : ListOfStudentsLocationsProtocol {
   func added(listOfStudentsLocationsProtocol: ListOfStudentsLocations) {
+    let allAnnotations = self.mapView.annotations
+    self.mapView.removeAnnotations(allAnnotations)
     //reload data
     mapView.addAnnotations(list.students)
-    mapView.showAnnotations(list.students, animated: true)
+//    mapView.showAnnotations(list.students, animated: true)
   }
 }
 extension MapViewController : MKMapViewDelegate {
@@ -99,4 +101,8 @@ extension MapViewController : MKMapViewDelegate {
       }
     }
   }
-  }
+    
+    @IBAction func unwindToMap(segue: UIStoryboardSegue) {
+        list.refresh()
+    }
+}
