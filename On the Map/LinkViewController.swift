@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 class LinkViewController: UIViewController {
-
+  
   var placemark: CLPlacemark?
   var link: String?
   var mapString: String?
@@ -32,63 +32,58 @@ class LinkViewController: UIViewController {
     }
     
   }
-
+  
   @IBAction func submitAction(_ sender: Any) {
     guard
-        let uniqueKey = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.uniqueKey,
-        let firstName = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.firstName,
-        let lastName = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.lastName,
-        let mapString = mapString,
-        let link = link,
-        let latitude = placemark?.location?.coordinate.latitude,
-        let longitude = placemark?.location?.coordinate.longitude
-        else {
-            return
+      let uniqueKey = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.uniqueKey,
+      let firstName = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.firstName,
+      let lastName = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.lastName,
+      let mapString = mapString,
+      let link = link,
+      let latitude = placemark?.location?.coordinate.latitude,
+      let longitude = placemark?.location?.coordinate.longitude
+      else {
+        return
     }
-
-    if let objectid = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.objectId {
-        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(objectid)")!)
-        request.httpMethod = "PUT"
-        request.addValue(PARSE_APP_ID, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(REST_API_KEY, forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        
-        request.httpBody = "{\"uniqueKey\": \"\(uniqueKey)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(link)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                showAlert("Error", message: "Not possible to post", vc: self)
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-            let parsedResult = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
-            let date  = parsedResult["updatedAt"] as? String
-            ListOfStudentsLocations.sharedInstance.user?.studentLocation?.updatedAt = date?.toDateTime()
-            self.performSegue(withIdentifier: "unwindToMap", sender: nil)
+    
+    var params : Dictionary<String, Any> = Dictionary()
+    
+    params["uniqueKey"] = uniqueKey
+    params["firstName"] = firstName
+    params["lastName"] = lastName
+    params["mapString"] = mapString
+    params["link"] = link
+    params["latitude"] = latitude
+    params["longitude"] = longitude
+    
+    if let objectId = ListOfStudentsLocations.sharedInstance.user?.studentLocation?.objectId  {
+      params["objectId"] = objectId
+      
+      Api().update(params: params, completionHandler: { (updateAt, error) in
+        if error != nil || updateAt == nil { // Handle error…
+          showAlert("Error", message: "Not possible to post", vc: self)
+          return
         }
-        task.resume()
+        if let updateAt = updateAt {
+          ListOfStudentsLocations.sharedInstance.user?.studentLocation?.updatedAt = updateAt.toDateTime()
+          self.performSegue(withIdentifier: "unwindToMap", sender: nil)
+        }
+      })
+      
     }
     else {
-        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-        request.httpMethod = "POST"
-        request.addValue(PARSE_APP_ID, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(REST_API_KEY, forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.httpBody = "{\"uniqueKey\": \"\(uniqueKey)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(mapString)\", \"mediaURL\": \"\(link)\",\"latitude\": \(latitude), \"longitude\": \(longitude)}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                showAlert("Error", message: "Not possible to post", vc: self)
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-            self.performSegue(withIdentifier: "unwindToMap", sender: nil)
+      
+      Api().post(params: params, completionHandler: { (data, error) in
+        if error != nil || data == nil  { // Handle error…
+          showAlert("Error", message: "Not possible to post", vc: self)
+          return
         }
-        task.resume()
+        
+        self.performSegue(withIdentifier: "unwindToMap", sender: nil)
+      })
+      
     }
     
   }
-
+  
 }

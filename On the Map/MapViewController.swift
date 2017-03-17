@@ -26,35 +26,16 @@ class MapViewController: UIViewController {
   // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "unwindToMenuWithSegue" {
-      logout()
+      Api().logout()
     }
   }
   
-  func logout() {
-    let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-    request.httpMethod = "DELETE"
-    var xsrfCookie: HTTPCookie? = nil
-    let sharedCookieStorage = HTTPCookieStorage.shared
-    for cookie in sharedCookieStorage.cookies! {
-      if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-    }
-    if let xsrfCookie = xsrfCookie {
-      request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-    }
-    let session = URLSession.shared
-    let task = session.dataTask(with: request as URLRequest) { data, response, error in
-      if error != nil { // Handle error…
-        return
-      }
-      let range = Range(5 ..< data!.count)
-      let newData = data?.subdata(in: range) /* subset response data! */
-      print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
-    }
-    task.resume()
-  }
-
   @IBAction func refreshAction(_ sender: Any) {
-    list.refresh()
+    list.refresh { (result, error) in
+      if error != nil {
+        showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
+      }
+    }
   }
   
   @IBAction func addMyLocationAction(_ sender: Any) {
@@ -103,6 +84,10 @@ extension MapViewController : MKMapViewDelegate {
   }
     
     @IBAction func unwindToMap(segue: UIStoryboardSegue) {
-        list.refresh()
+      list.refresh{ (result, error) in
+        if error != nil {
+          showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
+        }
+      }
     }
 }
