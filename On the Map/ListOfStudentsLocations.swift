@@ -10,6 +10,7 @@ import Foundation
 
 protocol ListOfStudentsLocationsProtocol {
   func added(listOfStudentsLocationsProtocol: ListOfStudentsLocations)
+  func errorDownloading()
 }
 
 class ListOfStudentsLocations: NSObject {
@@ -31,7 +32,11 @@ class ListOfStudentsLocations: NSObject {
   private override init() {
     super.init()
     refresh { (result, error) in
-      
+      if error != nil {
+        for o in self.observers {
+          o.errorDownloading()
+        }
+      }
     }
   }
   

@@ -26,13 +26,7 @@ class StudentsTableViewController: UITableViewController {
       if error != nil {
         showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
       }
-    }
-  }
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "unwindToMenuWithSegue" {
-      Api().logout()
+      
     }
   }
   
@@ -72,5 +66,8 @@ class StudentsTableViewController: UITableViewController {
 extension StudentsTableViewController : ListOfStudentsLocationsProtocol {
   func added(listOfStudentsLocationsProtocol: ListOfStudentsLocations) {
     self.tableView.reloadData()
+  }
+  func errorDownloading() {
+    showAlert("Erro", message: "Not possible to download locations", vc: self)
   }
 }

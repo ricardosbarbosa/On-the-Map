@@ -18,16 +18,15 @@ class MapViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     list.addObserve(observer: self)
-    self.mapView.addAnnotations(list.students)
+    loadThePins()
   }
   
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "unwindToMenuWithSegue" {
-      Api().logout()
-    }
+  func loadThePins() {
+    list.refresh(completionHandler: { (data, error) in
+      if error != nil {
+        showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
+      }
+    })
   }
   
   @IBAction func refreshAction(_ sender: Any) {
@@ -48,6 +47,10 @@ extension MapViewController : ListOfStudentsLocationsProtocol {
     //reload data
     mapView.addAnnotations(list.students)
     mapView.showAnnotations(list.students, animated: true)
+  }
+  
+  func errorDownloading() {
+    showAlert("Erro", message: "Not possible to download locations", vc: self)
   }
 }
 extension MapViewController : MKMapViewDelegate {

@@ -96,7 +96,11 @@ class LoginViewController: UIViewController {
     }
   }
   
-  @IBAction func unwindToMenu(segue: UIStoryboardSegue) {}
+  @IBAction func unwindToMenu(segue: UIStoryboardSegue) {
+    if segue.identifier == "unwindToMenuWithSegue" {
+      Api().logout()
+    }
+  }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     //    let vc = segue.destination as! TabViewController
