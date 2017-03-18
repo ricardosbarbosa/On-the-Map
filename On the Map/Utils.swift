@@ -30,6 +30,6 @@ extension String
 
 public func showAlert(_ title: String, message: String, vc: UIViewController) {
   let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-  alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
+  alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
   vc.present(alert, animated: true, completion: nil)
 }
