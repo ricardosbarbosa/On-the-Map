@@ -85,7 +85,16 @@ class LoginViewController: UIViewController {
   
   private func saveUser(userKey: String) {
     Api().getStudent(uniqueKey: userKey) { (result, error) in
+      if error != nil {
+        showAlert("Error", message: "It was not possivel to download de data", vc: self)
+        return
+      }
+      
       if let result = result as? [String:Any] {
+        if result["error"] != nil {
+          showAlert("Error", message: "It was not possivel to download de data", vc: self)
+          return
+        }
         if let results = result["results"] as? [Dictionary<String,Any>] {
           let userJson = results[0]
           let studentLocation = StudentLocation(params: userJson)
