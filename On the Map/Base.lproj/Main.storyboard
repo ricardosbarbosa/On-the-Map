@@ -177,7 +177,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQ0-5o-sU7">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Jev-LL-grh" id="U5R-0N-Caa"/>
+                                    <outlet property="delegate" destination="Jev-LL-grh" id="GPH-Ij-lOb"/>
                                 </connections>
                             </mapView>
                         </subviews>
@@ -193,12 +193,12 @@
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="65P-g2-zYZ"/>
                     <navigationItem key="navigationItem" title="Map" id="40g-et-Qdh"/>
                     <connections>
-                        <outlet property="mapView" destination="ZQ0-5o-sU7" id="8aQ-Zz-DaN"/>
+                        <outlet property="mapView" destination="ZQ0-5o-sU7" id="fFS-ar-rP3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L7O-Yd-Jdh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="623" y="-994"/>
+            <point key="canvasLocation" x="622.5" y="-995"/>
         </scene>
         <!--Add Location-->
         <scene sceneID="pZx-tr-xbB">
@@ -364,8 +364,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Jev-LL-grh" kind="relationship" relationship="viewControllers" id="yVv-gF-ZwW"/>
                         <segue destination="3Qn-RB-204" kind="relationship" relationship="viewControllers" id="bQu-tn-ydf"/>
+                        <segue destination="Jev-LL-grh" kind="relationship" relationship="viewControllers" id="cnE-tN-JxS"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ceh-xi-PG2" userLabel="First Responder" sceneMemberID="firstResponder"/>

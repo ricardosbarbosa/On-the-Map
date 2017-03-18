@@ -18,16 +18,17 @@ class MapViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     list.addObserve(observer: self)
-    loadThePins()
+    added(listOfStudentsLocationsProtocol: list)
+//    loadThePins()
   }
-  
-  func loadThePins() {
-    list.refresh(completionHandler: { (data, error) in
-      if error != nil {
-        showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
-      }
-    })
-  }
+    
+//  func loadThePins() {
+//    list.refresh(completionHandler: { (data, error) in
+//      if error != nil {
+//        showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
+//      }
+//    })
+//  }
   
   @IBAction func refreshAction(_ sender: Any) {
     list.refresh { (result, error) in

@@ -77,7 +77,6 @@ class LoginViewController: UIViewController {
       
       if let key = key {
         self.saveUser(userKey: key)
-        self.performSegue(withIdentifier: "TabViewController", sender: nil)
       }
       
     }
@@ -91,6 +90,7 @@ class LoginViewController: UIViewController {
           let userJson = results[0]
           let studentLocation = StudentLocation(params: userJson)
           ListOfStudentsLocations.sharedInstance.user = Student(studentLocation: studentLocation)
+          self.performSegue(withIdentifier: "TabViewController", sender: nil)
         }
       }
     }

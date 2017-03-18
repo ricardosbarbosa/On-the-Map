@@ -16,7 +16,16 @@ class StudentsTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     list.addObserve(observer: self)
+//    loadThePins()
   }
+  
+//  func loadThePins() {
+//    list.refresh(completionHandler: { (data, error) in
+//      if error != nil {
+//        showAlert("Erro", message: "It was not possible to refresh the student locations", vc: self)
+//      }
+//    })
+//  }
   
   @IBAction func add(_ sender: Any) {
   }
